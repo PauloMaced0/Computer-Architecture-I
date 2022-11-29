@@ -35,8 +35,8 @@ str3:	.asciiz"\n"
 	.eqv printString,4
 	.eqv printInt,1
 	.text
-	.globl main1 # main changed to main1 to permit p8e2 execution
-main1:	addiu $sp,$sp,-4
+	.globl main2 # main changed to main1 to permit p8e2 execution
+main2:	addiu $sp,$sp,-4
 	sw $ra,0($sp)
 	
 	la $a0,str

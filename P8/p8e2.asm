@@ -5,8 +5,8 @@
 str:	.space 33
 str1: 	.asciiz"\n"
 	.text
-	.globl main
-main:	addiu $sp,$sp,4
+	.globl main1 # main name changed to execute others files
+main1:	addiu $sp,$sp,4
 	sw $ra,0($sp)
 do:	li $v0,readInt # val = read_int();
 	syscall
