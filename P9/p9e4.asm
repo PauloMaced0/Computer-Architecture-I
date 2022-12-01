@@ -1,25 +1,23 @@
 	.text
-average:
-	move $t0,$a0
+max:	move $t0,$a0 # *p
 	move $t1,$a1 # n
-	l.d $f0,d1 # double sum = 0.0
 	
-	move $t3,$a1 # i = n 
-for:	blez $t3,endFor
+	sll $t2,$t1,3
+	addu $t3,$t0,$t2 # *u = p + n
+	addiu $t2,$t2,-8 # *u = p+ n - 1
 	
-	addiu $t3,$t3,-1
-	sll $t4,$t3,3
-	addu $t2,$t0,$t4
+	l.d $f0,0($t0)
+	addiu $t0,$t0,8
+while:	bgt $t0,$t3,endWhile
 	
-	l.d $f2,0($t2)
-	add.d $f0,$f0,$f2
-	
-	j for
-endFor: 
-	mtc1 $t1,$f4
-	cvt.d.w $f4,$f4
-	div.d $f0,$f0,$f4
-	
+	l.d $f2,0($t0)
+	if:	c.le.d $f2,$f0
+		bc1t endIf
+		mov.d $f0,$f2
+	endIf:
+	addiu $t0,$t0,8
+	j while
+endWhile:
 	jr $ra
 	
 	### MAIN
@@ -52,7 +50,7 @@ forMain:bge $s0,SIZE,endForMain
 endForMain:	
 	la $a0,array
 	li $a1,SIZE
-	jal average
+	jal max
 	
 	mov.d $f12,$f0
 	li $v0,printDouble
